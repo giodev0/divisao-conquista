@@ -1,0 +1,5 @@
+Sistema operacional: Linux 6.18.44-fc-v185 (amd64)
+Processadores lógicos disponíveis: 2
+Memória máxima da JVM: 1496 MB
+Java: OpenJDK 64-Bit Server VM 21.0.12.1
+Modelo do processador: preencher manualmente (ex.: Gerenciador de Tarefas > Desempenho, ou `lscpu`)

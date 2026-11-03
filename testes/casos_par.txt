@@ -1,0 +1,62 @@
+# Casos de teste — Etapa 2 (Par de Pontos Mais Próximos)
+#
+# Formato de cada caso:
+#   caso: <nome> | <justificativa>
+#   entrada: n x1 y1 x2 y2 ... xn yn
+#   esperado: distancia i j
+#
+# Índices 0-based, na ordem da entrada, com i < j. Distância com 6 casas.
+# Quando vários pares empatam na menor distância, o esperado é "d * *":
+# qualquer par válido é aceito, desde que sua distância seja d.
+#
+# Obs.: com o limiar padrão (16) os casos pequenos cairiam direto na força
+# bruta; por isso o executor de testes roda a divisão e conquista também com
+# limiares 2, 3 e 4, forçando a recursão e a faixa.
+
+caso: dois_pontos | menor entrada válida (n = 2)
+entrada: 2 0 0 3 4
+esperado: 5.000000 0 1
+
+caso: tres_pontos | n ímpar: divisão 1 + 2 quando o limiar é 2
+entrada: 3 0 0 10 0 10 1
+esperado: 1.000000 1 2
+
+caso: duplicados | pontos repetidos: distância 0 (estações no mesmo lugar)
+entrada: 4 1 1 5 5 1 1 9 9
+esperado: 0.000000 0 2
+
+caso: mesma_vertical | todos com o mesmo x: a mediana não separa nada, tudo cai na faixa
+entrada: 5 0 0 0 10 0 3 0 20 0 4
+esperado: 1.000000 2 4
+
+caso: mesma_horizontal | todos com o mesmo y: a faixa precisa ser filtrada por x
+entrada: 5 0 0 7 0 15 0 9 0 30 0
+esperado: 2.000000 1 3
+
+caso: cruza_linha | o par mais próximo tem um ponto de cada lado da linha divisória
+entrada: 6 0 0 0 100 49 50 51 50 100 0 100 100
+esperado: 2.000000 2 3
+
+caso: negativos_decimais | coordenadas negativas e não inteiras
+entrada: 4 -1.5 -2.5 3 4 -1.0 -2.0 10 -10
+esperado: 0.707107 0 2
+
+caso: diagonal | pontos colineares numa diagonal
+entrada: 4 0 0 1 1 3 3 6 6
+esperado: 1.414214 0 1
+
+caso: duas_colunas | muitos x repetidos em duas colunas; par entre as colunas
+entrada: 6 0 0 0 5 0 10 1 0.5 1 8 1 20
+esperado: 1.118034 0 3
+
+caso: coordenadas_grandes | valores na ordem de 1e9 (sem overflow em double)
+entrada: 3 1000000000 1000000000 -1000000000 -1000000000 1000000000 999999999.5
+esperado: 0.500000 0 2
+
+caso: grade_4x4 | empates: 24 pares a distância 1; testa que qualquer par mínimo é aceito
+entrada: 16 0 0 0 1 0 2 0 3 1 0 1 1 1 2 1 3 2 0 2 1 2 2 2 3 3 0 3 1 3 2 3 3
+esperado: 1.000000 * *
+
+caso: faixa_densa | muitos pontos perto da linha e espaçados em y: exercita o limite de 7 vizinhos
+entrada: 10 4.9 0 5.1 1.5 4.9 3 5.1 4.5 4.9 6 5.1 7.5 4.9 9 5.1 10.5 4.9 12 5.05 12.8
+esperado: 0.813941 8 9

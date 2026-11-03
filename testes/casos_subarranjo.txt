@@ -1,0 +1,97 @@
+# Casos de teste — Etapa 1 (Subarranjo de Soma Máxima)
+#
+# Formato de cada caso:
+#   caso: <nome> | <justificativa>
+#   entrada: n v1 v2 ... vn
+#   esperado: soma inicio fim
+#
+# Índices 0-based. Regra de desempate: entre intervalos de soma máxima, o de
+# menor início; persistindo o empate, o de menor fim.
+
+caso: classico_clrs | exemplo do livro (Cormen), resposta no meio do vetor
+entrada: 16 13 -3 -25 20 -3 -16 -23 18 20 -7 12 -5 -22 15 -4 7
+esperado: 43 7 10
+
+caso: variacao_acao | cenário do enunciado: o melhor período inclui dias de queda no meio
+entrada: 8 2 -3 4 -1 -2 1 5 -3
+esperado: 7 2 6
+
+caso: tamanho1_positivo | borda exigida: vetor de tamanho 1 (caso base da recursão)
+entrada: 1 5
+esperado: 5 0 0
+
+caso: tamanho1_negativo | borda exigida: tamanho 1 e negativo; o subarranjo não pode ser vazio
+entrada: 1 -7
+esperado: -7 0 0
+
+caso: tamanho1_zero | tamanho 1 com valor neutro
+entrada: 1 0
+esperado: 0 0 0
+
+caso: tamanho2 | menor vetor que passa pela divisão (uma recursão de cada lado)
+entrada: 2 -1 3
+esperado: 3 1 1
+
+caso: todos_negativos | borda exigida: a resposta é o maior elemento, não 0 nem vazio
+entrada: 5 -5 -2 -8 -1 -3
+esperado: -1 3 3
+
+caso: todos_negativos_empate | só negativos e dois máximos iguais: escolhe o de menor índice
+entrada: 4 -3 -1 -4 -1
+esperado: -1 1 1
+
+caso: negativos_extremos | valores no limite de int; testa inicialização com Long.MIN_VALUE
+entrada: 2 -2147483648 -2147483647
+esperado: -2147483647 1 1
+
+caso: todos_positivos | a resposta é o vetor inteiro
+entrada: 4 1 2 3 4
+esperado: 10 0 3
+
+caso: todos_zeros | todos os intervalos empatam em 0: escolhe [0,0]
+entrada: 4 0 0 0 0
+esperado: 0 0 0
+
+caso: empate_disjuntos | borda exigida: dois intervalos separados com a mesma soma
+entrada: 3 3 -5 3
+esperado: 3 0 0
+
+caso: empate_zero_a_direita | empate com mesmo início: [0,0], [0,1] e [0,2] somam 2; fica o mais curto
+entrada: 3 2 0 0
+esperado: 2 0 0
+
+caso: empate_zero_a_esquerda | empate com mesmo fim: [0,2], [1,2] e [2,2] somam 2; fica o de menor início
+entrada: 3 0 0 2
+esperado: 2 0 2
+
+caso: empate_esquerda_vs_cruzado | empate entre a metade esquerda e o intervalo que cruza o meio
+entrada: 3 5 -5 5
+esperado: 5 0 0
+
+caso: empate_tres_regioes | empate entre resultados da esquerda, do meio e da direita
+entrada: 5 4 -4 4 -4 4
+esperado: 4 0 0
+
+caso: cruza_meio | a resposta só é encontrada pelo passo de combinação (cruza o meio)
+entrada: 5 -2 1 3 4 -10
+esperado: 8 1 3
+
+caso: negativo_no_meio_compensa | vale a pena atravessar um valor negativo
+entrada: 3 5 -1 5
+esperado: 9 0 2
+
+caso: maximo_no_fim | resposta no último elemento (limite direito)
+entrada: 4 -1 -1 -1 7
+esperado: 7 3 3
+
+caso: maximo_no_inicio | resposta no primeiro elemento (limite esquerdo)
+entrada: 4 7 -1 -1 -1
+esperado: 7 0 0
+
+caso: alternado | sinais alternados
+entrada: 5 -1 2 -1 2 -1
+esperado: 3 1 3
+
+caso: overflow_int | a soma (6e9) não cabe em int: exige long
+entrada: 3 2000000000 2000000000 2000000000
+esperado: 6000000000 0 2
